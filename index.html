@@ -58,7 +58,7 @@
 					<section data-background="pictures/tlo_1.jpg" data-state="dimbg">
 						<h2>Praktyczne sposoby wykrywania podatności w aplikacjach webowych</h2>
 						<p>
-							<h3>Stacja IT - Warsztat #285</h3>
+							<h3>Stacja IT - Warsztat #310</h3>
 						</p>
 						<p style="text-align:right"><a href="http://www.linkedin.com/in/klara-trzcinska">Klara Trzcińska</a></p>
 					</section>
@@ -127,18 +127,19 @@
 							<li>Narzędzia typu lokalnego Proxy</li>
 							<li>Podatność XSS i jej wykorzystanie (BeEF i własny skrypt)</li>
 							<li><b>Przerwa obiadowa ok. 13:00</b></li>
+							<li>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
 						</ul>
 					</section>
 					
 					<section>
 					<h3>Agenda (III)</h3>
 						<ul>
-							<li>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
 							<li>SQL Injection</li>
 							<li>Podatności kategorii Broken Access Control</li>
 							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</li>
 							<li>Ataki Slow HTTP</li>
 							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
+							<li><b>Nagłowki bezpieczeństwa</b></li>
 						</ul>
 					</section>
 				</section>
@@ -149,10 +150,26 @@
 					</section>
 					
 					<section>
+						<h3>Jakie są najczęściej występujące podatności aplikacji webowych? O jakich podatnościach ostatnio słyszeliście?</h3>
+						<small>
+						<a href="https://www.commonplaces.com/blog/6-common-website-security-vulnerabilities/">Most Common Website Security Vulnerabilities</a>
+						</small>
+					</section>				
+					
+					<section>
 						<h3>Statystyki 2014 - 2018 - raport Imperva</h3>
 						<img height="360" data-src="pictures/statistics2018.png" alt="Statystyki Imperva">
 						<p>Statystyki podatności w latach 2014 - 2018 według <a href="https://www.imperva.com/blog/the-state-of-web-application-vulnerabilities-in-2018/">raportu</a> Imperva</p>
 					</section>
+					
+					<section>
+                        <h3>Motywacja</h3>
+                        <ul>
+                            <li>Wykonanie podstawowych testów bezpieczeństwa nie jest trudne.</li>
+							<li>Umiejętność wykrywania podstawowych podatności pomoże wykryć je na wczesnym etapie projektu.</li>
+							<li>Im wcześniej błąd zostanie wykryty tym łatwiej i taniej jest go naprawić.</li>
+                        </ul>
+                    </section>
 					
 					<section>
                         <h3>Test penetracyjny</h3>
@@ -170,6 +187,13 @@
 							<li>Test bezpieczeństwa jest pojęciem bardzo szerokim.</li>
 							<li>Testy bezpieczeństwa są często elementem testów pozafunkcjonalnych</li>
 						</ul>
+					</section>
+					
+					<section>
+						<h3>Ile milionów haseł uzytkowników Facebooka było dostępnych bez szyfrowania?</h3>
+						<small>
+						<a href="https://niebezpiecznik.pl/post/600-milionow-hasel-facebook-wyciek/">Hasła *** milionów użytkowników Facebooka były dostępne bez szyfrowania. Przez przypadek…</a>
+						</small>
 					</section>
 					
 				</section>
@@ -283,6 +307,23 @@
 							<li>Przewagą narzędzia nad analizatorami kodu jest taka, że nie jest potrzebny kod źródłowy do działania OWASP Dependency Check. Wystarczy jedynie zbudowana paczka z aplikacją.</li>
 							<li>Narzędzie generuje raport w formacie .html z podsumowaniem testów.</li>
 						</ul>
+					</section>
+					
+					<section>
+						<h3>OWASP Dependency Check (III)</h3>
+						<img height="360" data-src="pictures/Dependency.png" alt="OWASP Dependency Check">
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 1</h2>
+						<p>Skanowanie przykłądowej aplikacji .jar z wykorzystaniem narzędzia OWASP Dependency Check.</br></br>
+						Narzędzie uruchamia się z linii poleceń:</p> 
+						<pre><code class="hljs" data-trim contenteditable>
+						dependency-check.bat --project "Nazwa_Projektu" --scan "Ścieżka/do/folderu/z/plikami/wyjściowymi"
+						</code></pre>
+						Weryfikacja wygenerowanego raportu. 
 					</section>
 				</section>
 				
@@ -408,7 +449,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 1</h2>
+						<h2>Ćwiczenie 2</h2>
 						<p style="text-align: left;">Konfiguracja lokalnego Proxy i przechwytywanie żądań do aplikacji.
 						Aplikacja do testów znajduje się pod adresem <a href="http://www.badstore.net">www.badstore.net</a>.
 						Aby mieć dostęp do aplikacji należy:</p>
@@ -444,6 +485,13 @@
 							<li>inurl:hp/device/this.LCDispatcher</li>
 							<li>intitle:"toshiba network camera -user login"</li>
 						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 3</h2>
+						Wyszukanie informacji o wybranej firmie/organizacji z wykorzystaniem techniki Google Hacking i <a href="https://pentest-tools.com/information-gathering/google-hacking">aplikacji</a>.
 					</section>
 				</section>
 				
@@ -581,11 +629,11 @@
 					
 				<section>	
 					<section>
-						<h2>Ćwiczenie 2</h2>
+						<h2>Ćwiczenie 4</h2>
 						<ul>
 								<li>Skanowanie portów z wykorzystaniem Nmapa w trybie konsolowym lub GUI.</li>
 								<li>Skanowanie z opcją wykrywania wersji oprogramowania dla portu aplikacyjnego (jak inaczej zdobyć informację o wersji oprogramowania?).</li>
-								<li>Wyszukanie podatności dla tej wersji oprogramowania w bazie CVE-Details.</li>
+								<li>Wyszukanie podatności dla tej wersji oprogramowania w bazie CVE-Details i NullByte.</li>
 						</ul>
 					</section>
 				</section>	
@@ -638,11 +686,16 @@
 						&lt;script&gt;alert(1)&lt;/script&gt;
 						</code></pre>
 					</section>
+					
+					<section>
+						<h3>Przykład wykonania XSS</h3>
+						<img height="538" data-src="pictures/xss_bs.png" alt="XSS example">
+					</section>
 				</section>
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 3</h2>
+						<h2>Ćwiczenie 5</h2>
 						<ul>
 								<li>Znalezienie w aplikacji BadStore podatność XSS Reflected,</li>
 								<li>Znalezienie w aplikacji BadStore podatność XSS Stored,</li>
@@ -769,7 +822,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 4</h2>
+						<h2>Ćwiczenie 6</h2>
 						<ul>
 								<li>Opracowanie przykładowego scenariusza ataku z wykorzystaniem podatności XSS.</li>
 								<li>Przygotowanie fałszywego okna logowania do innego systemu.</li>
@@ -837,7 +890,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 5</h2>
+						<h2>Ćwiczenie 7</h2>
 						<ul>
 								<li>Znalezienie w aplikacji BadStore podatność CSRF,</li>
 								<li>Przygotowanie strony HTML pozwalającej na wykorzystanie podatności np. dla funkcjonalności zmiany hasła lub zakupu produktu w imieniu innego zalogowanego użytkownika.</li>
@@ -918,7 +971,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 6</h2>
+						<h2>Ćwiczenie 8</h2>
 						<ul>
 								<li>Znalezienie w aplikacji BadStore podatność SQL Injection.</li>
 								<li>Wyświetlenie informacji o wersji bazy danych. Podpowiedź - <i>VERSION()</i></li>
@@ -930,7 +983,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 7</h2>
+						<h2>Ćwiczenie 9</h2>
 						<ul>
 							<li>Zalogowanie na konto administratora. Podpowiedź - hasła zapisane są w formie haszy. Wartość można znaleźć np. tutaj <a href="https://md5.gromweb.com/">https://md5.gromweb.com/</a>.</li>
 						</ul>
@@ -939,7 +992,7 @@
 					
 				<section>	
 					<section>
-						<h2>Ćwiczenie 8</h2>
+						<h2>Ćwiczenie 10</h2>
 						<ul>
 								<li>Wyświetlenie zawartości pliku <i>/etc/passwd</i></li>
 						</ul>
@@ -948,7 +1001,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 9</h2>
+						<h2>Ćwiczenie 11</h2>
 						<p style="text-align: left;">Wyszukanie innych podatności w aplikacji np.:</p>
 						<ul>
 								<li>Znalezienie ukrytych funkcjonalności administracyjnych.</li>
@@ -1017,7 +1070,7 @@
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 10</h2>
+						<h2>Ćwiczenie 12</h2>
 						<p style="text-align: left;">Testy podatności kategorii Broken Access Control. Testy należy wykonać z wykorzystaniem konta administratora i konta zwykłego użytkownika. Podpowiedź: <i>?action=adminportal</i> i <i>?action=admin</i>
 						<br><br>Zakres rozszerzony - utworzenie konta administratora.
 						</p>				
@@ -1059,7 +1112,7 @@
 					
 				<section>
 					<section>
-						<h2>Ćwiczenie 11</h2>
+						<h2>Ćwiczenie 13</h2>
 						<p style="text-align: left;">Podsłuchanie komunikacji nieszyfrowanej. Wyświetlenie loginów i haseł wpisanych podczas logowania.</p>					
 					</section>
 				</section>
@@ -1138,6 +1191,133 @@
 				</section>
 				
 				<section>
+					<section>
+						<h2>Nagłowki bezpieczeństwa</h2>
+					</section>
+					
+					<section>
+						<h3>Nagłowki bezpieczeństwa</h3>
+						Zaleca się dodanie standardowych nagłówków bezpieczeństwa:
+						<ul>
+							<li>X-Frame-Options,</li>
+							<li>Content Security Policy,</li>
+							<li>X-XSS-Protection,</li>
+							<li>HTTP Strict Transport Security (HSTS).</li>
+						</ul>
+						<a href="https://www.owasp.org/index.php/OWASP_Secure_Headers_Project">Projekt OWASP Secure Headers</a>
+					</section>
+					
+					<section>
+						<h3>X-Frame-Options</h3>
+						<ul>
+							<li>Nagłówek zabezpiecza przed atakami typu Clickjacking.</li>
+							<li>Najczęściej w miejscu wskazanym użytkownikowi do kliknięcia znajduje się niewidoczna ramka &lt;iframe&gt;, która przechwytuje kliknięcia, które wykonują pewną akcję w podatnej aplikacji.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Content Security Policy</h3>
+						<i>Content Security Policy pozwala twórcy aplikacji webowej na ścisłe zdefiniowanie, skąd mogą pochodzić dodatkowe zasoby, z których korzysta aplikacja www (pliki zewnętrzne JavaScript czy CSS, obrazki i inne elementy multimedialne). <br><br>Ograniczenie to ma zapobiegać atakom XSS, które dołączają do źródeł strony skrypty doczytywane z innych lokalizacji sieciowych.</i>
+						<br><a href="https://sekurak.pl/czym-jest-content-security-policy/">Sekurak - Czym jest Content Security Policy?</a>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection (I)</h3>
+						<ul>
+							<li>Nagłówek podaje w jaki sposób ma być wykorzystany wbudowany filtr przeciwdziałający atakom Reflected XSS.</li>
+							<li>Działanie filtru przeglądarki opiera się na sprawdzeniu czy w treści przesyłanego żądania HTTP znajdują się tagi HTML lub fragmenty kodu JavaScript – oraz czy później wysyłane fragmenty kodu znajdują się w odpowiedzi, jeśli tak wykonanie takiego kodu jest blokowane.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection (II)</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							X-XSS-Protection: 0
+							X-XSS-Protection: 1
+							X-XSS-Protection: 1; mode=block
+							X-XSS-Protection: 1; report=&lt;reporting-uri&gt;
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection: 0</h3>
+						<p>
+						Filtr XSS jest wyłączony, nie jest wykorzystywana ochrona po stronie przeglądarki.
+						</p>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection: 1</h3>
+						<p>
+						Filtr XSS jest włączony (zazwyczaj domyślne w przeglądarkach). W przypadku wykrycia ataku Cross-Site Scripting, przeglądarka usuwa ze strony fragmenty uznane za niebezpieczny skrypt.
+						</p>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection: 1; mode=block</h3>
+						<p>
+						Filtr XSS jest włączony w trybie, w którym wykrycie próby ataku XSS skutkuje przerwaniem renderowania strony (wyświetlana jest tylko biała strona).
+						</p>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection: 1; report=&lt;reporting-uri&gt;</h3>
+						<p>
+						Opcja dostępna tylko w przeglądarce Chromium - filtr XSS jest włączony, w przypadku wykrycia ataku Cross-Site Scripting przeglądarka usuwa ze strony fragmenty uznane za niebezpieczny skrypt i zgłasza naruszenie;<br><br> w tym celu wykorzystywana jest funkcjonalność dyrektywy report-uri mechanizmu CSP, wykorzystywanej do raportowania naruszeń.
+						</p>
+					</section>
+					
+					<section>
+						<h3>Jaka wartość X-XSS-Protection jest najbezpieczniejsza? (I)</h3>
+					</section>
+					
+					<section>
+						<h3>Jaka wartość X-XSS-Protection jest najbezpieczniejsza? (II)</h3>
+						<ul>
+							<li>Nagłówek należy ustawiać jako X-XSS-Protection: 1; mode=block, standardowo uznaje się że jest to najbezpieczniejsza opcja – zalecana m. in. przez OWASP.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Jaka wartość X-XSS-Protection jest najbezpieczniejsza? (III)</h3>
+						<ul>
+							<li>Nie jest zalecane zostawianie domyślnych wartości nagłówka, ponieważ wielokrotnie pokazane zostało, że w specyficznych przypadkach filtr XSS ustawiony jako X-XSS-Protection: 1 może spowodować wykonanie wprowadzonego skryptu w sytuacji, w której bez filtra nie było to możliwe.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection (III)</h3>
+						<ul>
+							<li>Nagłówek bezpieczeństwa wprowadzał podatność tam gdzie jej nie było!</li>
+							<li>Implementacja filtra polegała na zastąpieniu fragmentu uznanego za niebezpieczny skrypt znakiem #.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>X-XSS-Protection (IV)</h3>
+						<ul>
+							<li>Błędy w implementacji powodowały że przez # zastępowany był fragment tagu HTML, payload nie był zmieniany, a modyfikacja innego elementu strony np. zamknięcia tagu style umożliwiała wykonanie ataku z wykorzystaniem składni CSS.</li>
+						</ul>
+						<a href="https://www.slideshare.net/masatokinugawa/xxn-en">Prezentacja na temat podatności</a>
+					</section>
+					
+					<section>
+						<h3>HTTP Strict Transport Security (HSTS)</h3>
+						<ul>
+							<li>HTTP Strict Transport Security (HSTS) jest mechanizmem bezpieczeństwa sieci, który chroni strony przed atakami takimi, jak wymuszona zmiana poziomu protokołu oraz przechwytywanie sesji.</li>
+							<li>Dzięki jego zastosowaniu przeglądarka łączy się tylko korzystając z połączeń HTTPS.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 14</h2>
+						<p style="text-align: left;">Weryfikacja obecności nagłowków bezpieczeństwa w aplikacji BadStore oraz wybranej innej np. Facebook.</p>					
+					</section>
+				</section>
+				
+				<section>
 				
 					<section>
 						<h2>Podsumowanie<h2>
@@ -1160,18 +1340,19 @@
 							<li><b>Przegląd baz danych podatności</b></li>
 							<li><b>Narzędzia typu lokalnego Proxy</li>
 							<li>Podatność XSS i jej wykorzystanie (BeEF i własny skrypt)</b></li>
+							<li><b>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
 						</ul>
 					</section>
 					
 					<section>
 					<h3>Podsumowanie (III)</h3>
 						<ul>
-							<li><b>Ataki CSRF, przygotowanie przykładowej strony HTML wykonującej atak</li>
 							<li>SQL Injection</li>
 							<li>Podatności kategorii Broken Access Control</li>
 							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</b></li>
 							<li>Ataki Slow HTTP</li>
 							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
+							<li><b>Nagłowki bezpieczeństwa</b></li>
 						</ul>
 					</section>
 				</section>
