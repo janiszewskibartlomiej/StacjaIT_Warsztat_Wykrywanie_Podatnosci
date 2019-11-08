@@ -58,7 +58,7 @@
 					<section data-background="pictures/tlo_1.jpg" data-state="dimbg">
 						<h2>Praktyczne sposoby wykrywania podatności w aplikacjach webowych</h2>
 						<p>
-							<h3>Stacja IT - Warsztat #310</h3>
+							<h3>Stacja IT - Warsztat #314</h3>
 						</p>
 						<p style="text-align:right"><a href="http://www.linkedin.com/in/klara-trzcinska">Klara Trzcińska</a></p>
 					</section>
@@ -139,7 +139,7 @@
 							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</li>
 							<li>Ataki Slow HTTP</li>
 							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
-							<li><b>Nagłowki bezpieczeństwa</b></li>
+							<li><b>Nagłówki bezpieczeństwa</b></li>
 						</ul>
 					</section>
 				</section>
@@ -185,7 +185,7 @@
 						<ul>
                             <li>Pentest nie jest audytem. Audyt sprawdza zgodność z formalną specyfikacją stanu pożądanego (normą, aktem prawnym).</li>
 							<li>Test bezpieczeństwa jest pojęciem bardzo szerokim.</li>
-							<li>Testy bezpieczeństwa są często elementem testów pozafunkcjonalnych</li>
+							<li>Testy bezpieczeństwa są często elementem testów pozafunkcjonalnych.</li>
 						</ul>
 					</section>
 					
@@ -195,7 +195,101 @@
 						<a href="https://niebezpiecznik.pl/post/600-milionow-hasel-facebook-wyciek/">Hasła *** milionów użytkowników Facebooka były dostępne bez szyfrowania. Przez przypadek…</a>
 						</small>
 					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Lokalne Proxy</h2>
+					</section>
 					
+					<section>
+						<h3>Kilka pytań :)</h3>
+						<ul>
+							<li>Kto korzystał z narzędzi deweloperskich przegladarki?</li>
+							<li>Kto korzystał z narzędzi typu lokalnego Proxy?</li>
+							<li>Kto widział różnice między metodami GET i POST?</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Narzędzia typu lokalnego Proxy</h3>
+							<ul>
+								<li>Proxy jest zainstalowane na komputerze testującego.</li>
+								<li>Przeglądarka łączy się z Proxy, a następnie Proxy łączy się z żądaną stroną internetową.</li>
+								<li>Dzięki takiemu połączeniu możliwe jest przechwytywanie oraz zmiana danych wysyłanych pomiędzy przeglądarką, a serwerem.</li>
+							</ul>
+							<img height="158" data-src="pictures/Obraz5.png" alt="Proxy Lokalne">
+					</section>
+					<section>
+						<h3>Burp Suite (I)</h3>
+						<img height="258" data-src="pictures/burp.jpg" alt="Burp Suite">
+						<p>Bardzo popularne narzędzie wykorzystywane podczas testów bezpieczeństwa.</p>
+					</section>
+					<section>
+						<h3>Burp Suite (II)</h3>
+							<ul>
+								<li>Szczegółowa analiza i obróbka zapytań oraz odpowiedzi.</li>
+								<li>Możliwość powtórzenia i modyfikowania przesłanych wcześniej żądań.</li>
+								<li>Łatwe przenoszenie zapytań pomiędzy różnymi narzędziami.</li>
+								<li>Skaner automatyczny (pasywny i aktywny).</li>
+							</ul>
+					</section>
+					<section>
+						<h3>Instalacja certyfikatu Burp - Firefox</h3>
+						<img height="400" data-src="pictures/BurpCA.png" alt="Burp Suite">
+						<p>Podczas importu certyfikatu należy zaznaczyć opcję <i>Trust this CA to identify web sites</i></p>
+					</section>
+					
+					<section>
+						<h3>Instalacja certyfikatu Burp - IE</h3>
+						<img height="400" data-src="pictures/ie_cert.png" alt="Burp Suite">
+						<p><small><i>The Chrome browser picks up the certificate trust store from your host computer. By installing Burp's CA certificate in your computer’s built-in browser (e.g. Internet Explorer on Windows, or Safari on OS X), Chrome will automatically make use of the certificate.</i></small></p>
+					</section>
+					
+					<section>
+						<h3>Instalacja certyfikatu Burp</h3>
+						<center>
+							<video autoplay="true" loop="true" muted="true" width="640">
+							   <source src="https://portswigger.net/sc/video/1080_InstallingAndConfiguring_Install%20Certificate.mp4" type="video/mp4"> Your browser does not support the video tag.
+							</video>
+						</center>
+						<p><a href="https://support.portswigger.net/customer/portal/articles/1783075-Installing_Installing%20CA%20Certificate.html">Szczegółowe informacje</a></p>
+						</section>
+					
+					<section>
+						<h3>Burp Suite Professional</h3>
+							<ul>
+								<li>Różnice między wersją Community i Professional.</li>
+								<li>Nowości w wersji Burp Suite 2.0 beta m. in. w skanerze automatycznym.</li>
+								<li>Kilka praktycznych wskazówek - logowanie NTLM (platform authentication) i certyfikat SSL po stronie klienta.</li>
+							</ul>
+					</section>
+					
+					<section>
+						<h3>Prezentacja OWASP ZAP</h3>
+						<img height="558" data-src="pictures/zap.png" alt="OWASP ZAP">
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h3>BadStore - aplikacja do ćwiczeń</h3>
+						<img height="350" data-src="pictures/BadStore.png" alt="Burp Suite">
+						<p>Aplikacja dosyć stara, pierwsze wydanie 2004 rok ale nadal opisywana na blogach, posiada praktycznie wszystkie najważniejsze podatności.</p>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Ćwiczenie 1</h2>
+						<p style="text-align: left;">Konfiguracja lokalnego Proxy i przechwytywanie żądań do aplikacji.
+						Aplikacja do testów znajduje się pod adresem <a href="http://www.badstore.net">www.badstore.net</a>.
+						Aby mieć dostęp do aplikacji należy:</p>
+						<ul>
+								<li>Otworzyć plik C:\Windows\System32\drivers\etc\hosts,</li>
+								<li>Dodać wpis <i>adres_ip www.badstore.net</i>.</li>
+						</ul>
+					</section>
 				</section>
 				
 				<section>
@@ -312,12 +406,13 @@
 					<section>
 						<h3>OWASP Dependency Check (III)</h3>
 						<img height="360" data-src="pictures/Dependency.png" alt="OWASP Dependency Check">
+						<p><a href="https://www.owasp.org/index.php/OWASP_Dependency_Check">Pobranie OWASP Dependency Check</a></p>
 					</section>
 				</section>
 				
 				<section>
 					<section>
-						<h2>Ćwiczenie 1</h2>
+						<h2>Ćwiczenie 2</h2>
 						<p>Skanowanie przykłądowej aplikacji .jar z wykorzystaniem narzędzia OWASP Dependency Check.</br></br>
 						Narzędzie uruchamia się z linii poleceń:</p> 
 						<pre><code class="hljs" data-trim contenteditable>
@@ -386,79 +481,23 @@
 							<li>Dane.</li>
 						</ul>
 					</section>
-				</section>	
-					
-					
-				</section>
-				
-				<section>
-					<section>
-						<h2>Lokalne Proxy</h2>
-					</section>
-					<section>
-						<h3>Narzędzia typu lokalnego Proxy</h3>
-							<ul>
-								<li>Proxy jest zainstalowane na komputerze testującego.</li>
-								<li>Przeglądarka łączy się z Proxy, a następnie Proxy łączy się z żądaną stroną internetową.</li>
-								<li>Dzięki takiemu połączeniu możliwe jest przechwytywanie oraz zmiana danych wysyłanych pomiędzy przeglądarką, a serwerem.</li>
-							</ul>
-							<img height="158" data-src="pictures/Obraz5.png" alt="Proxy Lokalne">
-					</section>
-					<section>
-						<h3>Burp Suite (I)</h3>
-						<img height="258" data-src="pictures/burp.jpg" alt="Burp Suite">
-						<p>Bardzo popularne narzędzie wykorzystywane podczas testów bezpieczeństwa.</p>
-					</section>
-					<section>
-						<h3>Burp Suite (II)</h3>
-							<ul>
-								<li>Szczegółowa analiza i obróbka zapytań oraz odpowiedzi.</li>
-								<li>Możliwość powtórzenia i modyfikowania przesłanych wcześniej żądań.</li>
-								<li>Łatwe przenoszenie zapytań pomiędzy różnymi narzędziami.</li>
-								<li>Skaner automatyczny (pasywny i aktywny).</li>
-							</ul>
-					</section>
-					<section>
-						<h3>Instalacja certyfikatu Burp</h3>
-						<img height="400" data-src="pictures/BurpCA.png" alt="Burp Suite">
-						<p>Podczas importu certyfikatu należy zaznaczyć opcję <i>Trust this CA to identify web sites</i></p>
-					</section>
 					
 					<section>
-						<h3>Burp Suite Professional</h3>
-							<ul>
-								<li>Różnice między wersją Community i Professional.</li>
-								<li>Nowości w wersji Burp Suite 2.0 beta m. in. w skanerze automatycznym.</li>
-								<li>Kilka praktycznych wskazówek - logowanie NTLM (platform authentication) i certyfikat SSL po stronie klienta.</li>
-							</ul>
-					</section>
-					
-					<section>
-						<h3>Prezentacja OWASP ZAP</h3>
-						<img height="558" data-src="pictures/zap.png" alt="OWASP ZAP">
-					</section>
-				</section>
-				
-				<section>
-					<section>
-						<h3>BadStore - aplikacja do ćwiczeń</h3>
-						<img height="350" data-src="pictures/BadStore.png" alt="Burp Suite">
-						<p>Aplikacja dosyć stara, pierwsze wydanie 2004 rok ale nadal opisywana na blogach, posiada praktycznie wszystkie najważniejsze podatności.</p>
-					</section>
-				</section>
-				
-				<section>
-					<section>
-						<h2>Ćwiczenie 2</h2>
-						<p style="text-align: left;">Konfiguracja lokalnego Proxy i przechwytywanie żądań do aplikacji.
-						Aplikacja do testów znajduje się pod adresem <a href="http://www.badstore.net">www.badstore.net</a>.
-						Aby mieć dostęp do aplikacji należy:</p>
+						<h3>Dane wrażliwe w GET (I)</h3>
 						<ul>
-								<li>Otworzyć plik C:\Windows\System32\drivers\etc\hosts,</li>
-								<li>Dodać wpis <i>adres_ip www.badstore.net</i>.</li>
+							<li>Przykład przekazywania danych wrażliwych z Amerykańskiego serwisu <b>HealthCare.gov</b> do serwisów śledzących aktywność użytkownika.</li>
+							<li>Aplikacja przetwarzająca dane medyczne, w której konta mają miliony amerykanów - HealthCare.gov przekazywała dane o stanie zdrowia użytkowników do zewnętrznych systemów monitorujących ich aktywność.</li>
 						</ul>
 					</section>
-				</section>
+					
+					<section>
+						<h3>Dane wrażliwe w GET (II)</h3>
+						<ul>
+							<li>Dane były przekazywane poprzez nagłówek Referer (HTTP Referer to adres strony internetowej, z której użytkownik został przekierowany za pomocą odnośnika; przeglądarka internetowa przekazuje Referer serwerowi WWW w nagłówku żądania HTTP).</li>
+							<li>Przekazywane dane zawierały m. in. kod pocztowy, poziom dochodów, informacje na temat palenia tytoniu i ciąży. Błąd został wykryty w styczniu 2015 roku. <a href="https://www.eff.org/pl/deeplinks/2015/01/healthcare.gov-sends-personal-data">Więcej informacji...</a></li>
+						</ul>
+					</section>
+				</section>	
 				
 				<section>
 					<section>
@@ -834,6 +873,49 @@
 				
 				<section>
 					<section>
+						<h2>Przykładowe podatności XSS z popularnych serwisów</h2>
+					</section>
+					
+					<section>
+						<h3>Przykład #1 – Facebook (I)</h3>
+						<ul>
+							<li>Podatność związana z funkcją dodawania plików pochodzących bezpośrednio z Dropboxa.</li>
+							<li>Znaki specjalne w nazwie pliku nie były poprawnie filtrowane, dlatego dodanie pliku o nazwie: <i>&apos;&quot;&gt;&lt;img src=x onerror=alert(document.domain)&gt;.txt</i> skutkowało wykonaniem skryptu przez przeglądarkę i pojawieniem się okna z nazwą domeny.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Przykład #1 – Facebook (II)</h3>
+						<ul>
+							<li>Do wykonania skryptu dochodziło bezpośrednio po dodaniu pliku, po wybraniu opcji Share.</li>
+							<li>Jedyną trudnością było tutaj dodanie pliku o takiej nazwie do Dropboxa, nie było to możliwe bezpośrednio przez formularz uploadu ale nie stanowiło problemu jeśli utworzyło się taki plik lokalnie, a następnie zsynchronizowało katalog z Dropboxem. </li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Przykład #1 – Facebook (III)</h3>
+							<img height="400" data-src="pictures/xss_fb.jpg" alt="XSS FB">
+							<p><a href="https://blog.detectify.com/2012/12/30/how-i-hacked-facebook-and-received-a-3500-usd-facebook-bug-bounty/">Źródło</a></p>
+					</section>
+					
+					<section>
+						<h3>Przykład #2 – Linkedin (I)</h3>
+						<ul>
+							<li>Podatny na ataki XSS był formularz tworzenia nowej dyskusji, a dokładnie pole o nazwie More Details.</li>
+							<li>Wprowadzenie w to pole wartości: <i>&lt;&lt;a&gt;&lt;/a&gt;body onload=alert(&apos;xss&apos;)&gt; </i> skutkowało trwałym zapisaniem w aplikacji payloadu XSS, a następnie jego wykonywaniem przez przeglądarki wszystkich użytkowników czytających daną dyskusję.</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h3>Przykład #2 – Linkedin (II)</h3>
+							<img height="400" data-src="pictures/xss_li.jpg" alt="XSS LI">
+							<p><a href="https://www.zdnet.com/article/linkedin-patches-serious-xss-vulnerability/ ">Źródło</a></p>
+					</section>
+				
+				</section>
+				
+				<section>
+					<section>
 						<h2>Retrospekcja</h2>
 					</section>
 				
@@ -1014,7 +1096,7 @@
 				<section>
 					<section>
 						<h2>Ankieta</h2>
-						<a href="http://bit.ly/pod_krk">http://bit.ly/pod_krk</a>
+						<a href="http://bit.ly/podweb-gda-0911">http://bit.ly/podweb-gda-0911</a>
 					</section>
 				</section>
 				
@@ -1212,6 +1294,7 @@
 						<ul>
 							<li>Nagłówek zabezpiecza przed atakami typu Clickjacking.</li>
 							<li>Najczęściej w miejscu wskazanym użytkownikowi do kliknięcia znajduje się niewidoczna ramka &lt;iframe&gt;, która przechwytuje kliknięcia, które wykonują pewną akcję w podatnej aplikacji.</li>
+							<li><a href="https://sekurak.pl/clickjacking-i-dwie-kropki-opis-bledu-w-facebooku/">Przyklad podatności - Sekurak.</a></li>
 						</ul>
 					</section>
 					
@@ -1352,7 +1435,7 @@
 							<li>Podsłuchanie komunikacji nieszyfrowanej z wykorzystaniem Wireshark</b></li>
 							<li>Ataki Slow HTTP</li>
 							<li>Skanery umożliwiające automatyczne testy bezpieczeństwa</li>
-							<li><b>Nagłowki bezpieczeństwa</b></li>
+							<li><b>Nagłówki bezpieczeństwa</b></li>
 						</ul>
 					</section>
 				</section>
